@@ -266,7 +266,7 @@ function ChatBox() {
 
                         }
                         <div ref={messagesEndRef} />
-                    </List >
+                    </List>
                 </Grid>
             </Grid>
         </Container>

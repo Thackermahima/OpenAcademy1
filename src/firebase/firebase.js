@@ -9,24 +9,24 @@ import { getFirestore} from "firebase/firestore";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional 
  
 
-// const firebaseConfig = {
-//   apiKey:  process.env.REACT_APP_APIKEY,
-//   authDomain: process.env.REACT_APP_DOMAIN,
-//   projectId: process.env.REACT_APP_PROJECTIS,
-//   storageBucket:process.env.REACT_APP_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_SENDERID,
-//   appId: process.env.REACT_APP_APPID,
-//   measurementId: process.env.REACT_APP_MEASEREMENTID
-// };
 const firebaseConfig = {
-  apiKey: "AIzaSyAQaSeykOYBEhzjjY_GDASeFIypU19nJ9U",
-  authDomain: "q-and-a-with-lens.firebaseapp.com",
-  projectId: "q-and-a-with-lens",
-  storageBucket: "q-and-a-with-lens.appspot.com",
-  messagingSenderId: "758491651169",
-  appId: "1:758491651169:web:0e8d6883225ef5f5659e20",
-  measurementId: "G-W2S8KHP6KT"
+  apiKey:  process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECTIS,
+  storageBucket:process.env.REACT_APP_BUCKET,
+  messagingSenderId: process.env.REACT_APP_SENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASEREMENTID
 };
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAQaSeykOYBEhzjjY_GDASeFIypU19nJ9U",
+//   authDomain: "q-and-a-with-lens.firebaseapp.com",
+//   projectId: "q-and-a-with-lens",
+//   storageBucket: "q-and-a-with-lens.appspot.com",
+//   messagingSenderId: "758491651169",
+//   appId: "1:758491651169:web:0e8d6883225ef5f5659e20",
+//   measurementId: "G-W2S8KHP6KT"
+// };
 
 // Initialize Firebase
  const app = initializeApp(firebaseConfig); 

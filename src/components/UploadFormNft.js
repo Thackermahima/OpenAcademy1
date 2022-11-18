@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import * as EpnsAPI from "@epnsproject/sdk-restapi";
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
 import { api, utils } from "@epnsproject/frontend-sdk-staging";
+import db from '../firebase/firebase'
 require("dotenv").config({ path: "./.env" });
 function UploadFormNft() {
   const { Moralis } = useMoralis();
@@ -29,6 +30,7 @@ function UploadFormNft() {
   const API_Token = process.env.REACT_APP_API_TOKEN;
   const client = new Web3Storage({ token: API_Token })
   const notify = () => toast("NFT Created Successfully !!");
+
   const authorNameEvent = (e) => {
     setAuthorname(e.target.value);
   };
@@ -192,6 +194,7 @@ function UploadFormNft() {
       const uri = `https://ipfs.io/ipfs/${path}`;
       console.log(uri);
       filesArr.push(uri);
+      
       nftData.set("authorName", authorname);
       nftData.set("symbol", symbol);
       nftData.set("tokenPrice", tokenPrice);
@@ -199,6 +202,17 @@ function UploadFormNft() {
       nftData.set("imageArr", imageArr);
       nftData.save();
     })
+    
+      db.ref("Nftreadership").set({
+        authorName : authorname,
+        symbol : symbol,
+        tokenPrice : tokenPrice,
+        tokenQuantity : tokenQuantity,
+        imageArr : imageArr,
+        tokenContractAddress : tokenContractAddress,
+        CurrentUser : userAdd
+      }).catch(alert);
+    
     console.log(filesArr, "filesArr");
     //   await storyMintContract.bulkSetURI(
     //   tokenContractAddress,
@@ -302,10 +316,10 @@ function UploadFormNft() {
             type="submit"
             value={loading ? "Loading...." : "Submit"}
             style={{ backgroundColor: "#D82148", marginLeft: "120px" }}
-            // onClick={notify}
+            onClick={PushInDb}
             disabled={loading}
           />
-          < ToastContainer />
+          <ToastContainer />
         </form>
       </div>
     </div>

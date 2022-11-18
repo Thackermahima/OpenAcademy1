@@ -33,7 +33,8 @@ ReactDOM.render(
         </BrowserRouter>
       </LensAuthContextProvider>
     </BookContextProvider>
-  </MoralisProvider>,
+  </MoralisProvider>
+  ,
   document.getElementById('root')
 
 );

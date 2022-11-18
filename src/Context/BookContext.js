@@ -3,12 +3,12 @@ import React, { useState, createContext, useEffect } from "react";
 import axios from 'axios'
 import { useMoralis, useMoralisQuery } from "react-moralis";
 import { Web3Storage } from "web3.storage/dist/bundle.esm.min";
-//--------- MAHIMA
 import { v4 as uuidv4 } from "uuid";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { ethers } from 'ethers';
 
 
 export const BookContext = createContext();
@@ -17,6 +17,7 @@ export const BookContextProvider = (props) => {
     const [pdf, setPdf] = useState('');
     const [accounts, setAccount] = useState('');
     const [address, setAddress] = useState('');
+    const [accountss, setAccounts] = useState(null)
 
 
     // const [loading, setLoading] = useState(false);
@@ -102,7 +103,20 @@ export const BookContextProvider = (props) => {
             window.localStorage.removeItem("profileId");
         }
     }
-
+    const web3Handler = async() => {
+        console.log(window.ethereum,"1");
+        if(window.ethereum){
+         await window.ethereum.enable();
+        const accountses = await window.ethereum.request({ method: 'eth_requestAccounts'});
+           console.log(window.ethereum,"2");
+        console.log(window.ethereum,"2");
+        setAccounts(accountses[0])
+          const provider = new ethers.providers.Web3Provider(window.ethereum)
+          console.log(window.ethereum,"3");
+            const signer = provider.getSigner()
+         
+        }
+      }
     const login = async () => {
         if (!isAuthenticated) {
             await authenticate({
@@ -172,7 +186,9 @@ export const BookContextProvider = (props) => {
                 storeFile,
                 Image,
                 fetch,
-                disconnect, 
+                disconnect,
+                accountss,
+                web3Handler
             }}
         >
             {props.children}

@@ -1,5 +1,6 @@
 
 import * as React from 'react';
+import { useState} from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -40,8 +41,8 @@ import ProfileCreation from './Lens/CreateProfileModal';
 export default function NavbarB() {
 
     const bookContext = React.useContext(BookContext);
-    const { login, disconnect } = bookContext;
-    const { Moralis, isAuthenticated, user } = useMoralis();
+    const { web3Handler,accountss } = bookContext;
+    // const { Moralis, isAuthenticated, user } = useMoralis();
 
    
     const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function NavbarB() {
 
     const [anchorLogin, setAnchorLogin] = React.useState(null);
     const [openLogin, setOpenLogin] = React.useState(false);
-    const [account, setAccount] = useState(null)
+    // const [account, setAccount] = useState(null)
 
     const theme = useTheme();
 
@@ -80,21 +81,20 @@ export default function NavbarB() {
         setAnchorLogin(null);
     };
 
-    const web3Handler = async() => {
-        console.log(window.ethereum,"1");
-        if(window.ethereum){
-         await window.ethereum.enable();
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
-           console.log(window.ethereum,"2");
-        console.log(window.ethereum,"2");
-        setAccount(accounts[0])
-          const provider = new ethers.providers.Web3Provider(window.ethereum)
-          console.log(window.ethereum,"3");
-            const signer = provider.getSigner()
+    // const web3Handler = async() => {
+    //     console.log(window.ethereum,"1");
+    //     if(window.ethereum){
+    //      await window.ethereum.enable();
+    //     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
+    //        console.log(window.ethereum,"2");
+    //     console.log(window.ethereum,"2");
+    //     setAccount(accounts[0])
+    //       const provider = new ethers.providers.Web3Provider(window.ethereum)
+    //       console.log(window.ethereum,"3");
+    //         const signer = provider.getSigner()
          
-            loadContracts(signer)
-        }
-      }
+    //     }
+    //   }
 
 
     const DrawerHeader = styled('div')(({ theme }) => ({
@@ -165,8 +165,9 @@ export default function NavbarB() {
                         <Divider />
 
                         <Divider />
+                        {/* !user &&  */}
                         {
-                            !user && <Box sx={{ flexGrow: 0 }}>
+                           !accountss && <Box sx={{ flexGrow: 0 }}>
                                 <Button onClick={handleOpenLoginMenu} className='m-2' style={{ background: '#488E72', color: 'white', textTransform: 'capitalize' }} >
                                     Login
                                 </Button>
@@ -186,7 +187,7 @@ export default function NavbarB() {
                                     open={Boolean(anchorLogin)}
                                     onClose={handleCloseLoginMenu}
                                 >
-                                    <MenuItem onClick={() => login()} className='m-2'  > Web3Auth </MenuItem>
+                                    <MenuItem onClick={() => web3Handler()} className='m-2'> Web3Auth </MenuItem>
                                     <MenuItem className='m-2'  >{localStorage.getItem("domain") !== null ? (
                                         <small className="log-title">{localStorage.getItem("domain")}</small>
                                     ) : "Unstoppable"} </MenuItem>
@@ -216,18 +217,24 @@ export default function NavbarB() {
                     <Box sx={{ flexGrow: 1 }} />
 
                     {/* <NotificationsPopover /> */}
-
-                    {
-                        user && <Box sx={{ flexGrow: 0 }}>
+                    {/* user && */}
+                    { accountss &&
+                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }} className="d-flex">
                                     {/* <Avatar alt="" src="https://www.pinpng.com/pngs/m/615-6154495_avatar-png-icon-business-woman-icon-vector-transparent.png" /> */}
-
+{/* 
                                     <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
                                         <p className="m-0 text-secondary" style={{ marginLeft: '5px', border: '1px solid #eee', padding: '7px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
-                                            {user?.attributes?.ethAddress && shortAddress(user?.attributes?.ethAddress)}
+                                        { account && shortAddress(account)} */}
+                                            {/* {user?.attributes?.ethAddress && shortAddress(user?.attributes?.ethAddress)} */}
+                                        {/* </p>
+                                    </Box> */}
+                                    <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
+                                        <p className="m-0 text-secondary" style={{ marginLeft: '5px', border: '1px solid #eee', padding: '7px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
+                                       Logged in
                                         </p>
-                                    </Box>
+                                    </Box> 
                                 </div>
                             </Tooltip>
                             <Menu
@@ -248,12 +255,15 @@ export default function NavbarB() {
                             >
                                 {/* <MenuItem className='m-2'  > Profile </MenuItem> */}
                                 <MenuItem className='m-2'  ><ProfileCreation /></MenuItem>
-                                <MenuItem className='m-2' onClick={disconnect} > Disconnect </MenuItem>
+                                <Link to="/">
+                                <MenuItem className='m-2'> Disconnect </MenuItem>
+                                </Link>
                             </Menu>
                         </Box>
                     }
+                    {/* !user && */}
                     {
-                        !user && <Box sx={{ flexGrow: 0 }}>
+                       !accountss &&  <Box sx={{ flexGrow: 0 }}>
                             <Button onClick={handleOpenLoginMenu} className='m-2' style={{ background: '#488E72', color: 'white', textTransform: 'capitalize' }} >
                                 Login
                             </Button>
@@ -273,7 +283,7 @@ export default function NavbarB() {
                                 open={Boolean(anchorLogin)}
                                 onClose={handleCloseLoginMenu}
                             >
-                                <MenuItem onClick={web3Handler} className='m-2'  > Web3Auth </MenuItem>
+                                <MenuItem onClick={web3Handler()} className='m-2'> Web3Auth </MenuItem>
                                 <MenuItem className='m-2'  >{localStorage.getItem("domain") !== null ? (
                                     <small className="log-title">{localStorage.getItem("domain")}</small>
                                 ) : "Unstoppable"} </MenuItem>
